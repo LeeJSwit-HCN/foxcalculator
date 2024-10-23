@@ -1,7 +1,7 @@
 # 夏末-宗长计算器
 
 #### 介绍
-夏末-宗长计算器 summerendffxiv.club-foxcalculator
+[夏末-宗长计算器 summerendffxiv.club-foxcalculator](https://leejswit-hcn.github.io/foxcalculator/)
 
 根据绝杀宗长表格数据构建的快速查询计算器
 
@@ -37,5 +37,6 @@ html传入的ID，根据从左到右，从上到下的顺序，依次将按钮ID
 
 ---
 
-代码可能有点小小的bug，但是不影响使用。推荐选点也不打算做了（两年前的代码已经看不懂啦）
-如果7.0幻巧拼图有改动再更新，有选点问题可以提issue，我会及时修改。
+>代码可能有点小小的bug，但是不影响使用。推荐选点也不打算做了（两年前的代码已经看不懂啦)
+>
+>如果7.0幻巧拼图有改动再更新，有选点问题可以提issue，我会及时修改。
