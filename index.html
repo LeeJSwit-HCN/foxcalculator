@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>幻巧拼图小工具-HCN</title>
+	<link rel="shortcut icon" href="./favicon.ico">
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<script src="./js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<script src="./plugins.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+		<div class="container">
+			<a href="http://hcn_lee.gitee.io/summerendffxiv.club-foxcalculator/" class="navbar-brand">幻巧拼图小工具</a>
+		</div>
+	</nav>
+
+	<section class="p-2 bg-black">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg g-1">
+					<div class="contsiner-fluid">
+						<div class="contsiner-fluid">
+							<div class="row">
+								<div class="col-md-3 col-lg-3"></div>
+								<div id="deadcell_col" style="background-color: #0D6EFD;"
+									class="col-2 col-md-1 col-lg-1 border rounded-start">
+									<div class="form-check text-light text-nowrap">
+										<input type="radio" class="form-check-input" id="menuitemdeadcell"
+											name="optradio" onclick="mode_update(this.value)" value="deadcell" checked>
+										<label class="form-check-label" for="menuitemdeadcell">固定</label>
+									</div>
+								</div>
+								<div id="sword_col" style="background-color: black;"
+									class="col-2 col-md-1 col-lg-1 border">
+									<div class="form-check text-light text-nowrap">
+										<input type="radio" class="form-check-input" id="menuitesword" name="optradio"
+											onclick="mode_update(this.value)" value="sword">
+										<label class="form-check-label" for="menuitesword">双剑</label>
+									</div>
+								</div>
+								<div id="box_col" style="background-color: black;"
+									class="col-2 col-md-1 col-lg-1 border">
+									<div class="form-check text-light text-nowrap">
+										<input type="radio" class="form-check-input" id="menuitebox" name="optradio"
+											onclick="mode_update(this.value)" value="box">
+										<label class="form-check-label" for="menuitebox">宝箱</label>
+									</div>
+								</div>
+								<div id="miss_col" style="background-color: black;"
+									class="col-2 col-md-1 col-lg-1 border">
+									<div class="form-check text-light text-nowrap">
+										<input type="radio" class="form-check-input" id="menuitemmiss" name="optradio"
+											onclick="mode_update(this.value)" value="miss">
+										<label class="form-check-label" for="menuitemmiss">空格</label>
+									</div>
+								</div>
+								<div id="fox_col" style="background-color: black;"
+									class="col-2 col-md-1 col-lg-1 border">
+									<div class="form-check text-light text-nowrap">
+										<input type="radio" class="form-check-input" id="menuitefox" name="optradio"
+											onclick="mode_update(this.value)" value="fox">
+										<label class="form-check-label" for="menuitefox">宗长</label>
+									</div>
+								</div>
+								<div id="clear_col" style="background-color: black;"
+									class="col-2 col-md-1 col-lg-1 border rounded-end">
+									<div class="form-check text-light text-nowrap">
+										<input type="radio" class="form-check-input" id="menuiteclear" name="optradio"
+											onclick="mode_update(this.value)" value="clear">
+										<label class="form-check-label" for="menuiteclear">清除</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid text-nowrap p-2">
+							<div class="row">
+								<div class="col-1 col-sm-1 col-md-2 col-lg-1"></div>
+								<div class="col-3">
+									<div class="progress">
+										<div id="progress-deadcell" class="progress-bar bg-warning active"
+											role="progressbar" style="width: 0%">
+										</div>
+									</div>
+								</div>
+								<div class="col-1"></div>
+								<div class="col-6 col-sm-6 col-md-4 col-lg-6">
+									<div class="progress">
+										<div id="progress-step" class="progress-bar active" role="progressbar"
+											style="width: 0%">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid text-nowrap" id="wrpper">
+							<div style="height: 15.83333%; width: 100%;" class="col-">
+								<button id="11"
+									style="background-color: black; border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="12"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="13"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="14"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="15"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="16"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+							</div>
+							<div style="height: 15.83333%; width: 100%;" class="col-">
+								<button id="21"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="22"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="23"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+								<button id="24"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="25"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+								<button id="26"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+							</div>
+							<div style="height: 15.83333%; width: 100%;" class="col-">
+								<button id="31"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="32"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="33"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="34"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="35"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+								<button id="36"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+							</div>
+							<div style="height: 15.83333%; width: 100%;" class="col-">
+								<button id="41"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="42"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+								<button id="43"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="44"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+								<button id="45"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="46"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+							</div>
+							<div style="height: 15.83333%; width: 100%;" class="col-">
+								<button id="51"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="52"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn " onclick=Livelistening(id)></button>
+								<button id="53"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="54"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="55"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="56"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+							</div>
+							<div style="height: 15.83333%; width: 100%;" class="col-">
+								<button id="61"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="62"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="63"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="64"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="65"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+								<button id="66"
+									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
+									class="btn" onclick=Livelistening(id)></button>
+							</div>
+						</div>
+						<div class="container-fluid text-nowrap">
+							<div class="row">
+								<div class="col-9"></div>
+								<div class="col-1">
+									<button class="btn btn-success" onclick=reset()>重置</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg p-2">
+					<div class="container">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">选点思路</h5>
+								<p class="card-text">
+									1.主要逻辑:避免选空<br />
+									2.如果这张拼图不可能出现宗长，直接拿保底<br />
+									3.第一场:一定一定要拿双剑，不然白忙活<br />
+									4.第二场:可以不要双剑，赌宗长，拿宝箱<br />
+									<br />
+									注意：<br />
+									宗长的出现本身是有概率的<br />
+									即使图中出现宗长，也不代表游戏里一定会出现宗长<br />
+									<br />
+									数据来源：<br />
+									《绝杀宗长 Faux Hollows Foxes》所有人：静坐听风语<br />
+									<br />
+									反馈：<br />
+									384637887@qq.com<br />
+                                    					<br />   
+								</p>
+								<a href="https://docs.qq.com/sheet/DS3dSWnlEdWZxWFls?tab=BB08J3" target="_blank"
+									class="btn btn-primary">查看原版Excel</a>
+								<a href="https://www.bilibili.com/video/BV13K411R7Cr/" target="_blank"
+									class="btn btn-primary">B站链接</a>
+                                				<br /><br />
+                                				<a href="https://github.com/LeeJSwit-HCN/foxcalculator" target="_blank" class="btn btn-success">开源地址</a>
+							</div>
+							<div class="card-body">
+								<a href="https://www.easycounter.com/">
+								<img src="https://www.easycounter.com/counter.php?leejswit" border="0" alt="Web Counter"></a>
+								<br><a href="https://www.easycounter.com/">Hit Counters</a>
+							</div>
+						</div>
+					</div>		
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
