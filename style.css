@@ -1,0 +1,272 @@
+body {
+	background-color: black;
+	padding: 10px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+@media screen and (max-width:576px) {
+	#wrpper {
+		height: 90vw;
+		width: 90vw;
+	}
+
+	.form-check input[type="radio"]+label {
+		position: relative;
+		left: -21px;
+	}
+}
+
+@media screen and (min-width:576px) and (max-width:768px) {
+	#wrpper {
+		height: 80vw;
+		width: 80vw;
+	}
+
+	.form-check input[type="radio"]+label {
+		position: relative;
+		left: -14px;
+	}
+}
+
+@media screen and (min-width:768px) and (max-width:992px) {
+	#wrpper {
+		height: 70vw;
+		width: 70vw;
+	}
+
+	.form-check input[type="radio"]+label {
+		position: relative;
+		left: -22px;
+	}
+}
+
+@media screen and (min-width:992px) and (max-width:1200px) {
+	#wrpper {
+		height: 50vw;
+		width: 50vw;
+	}
+
+	.form-check input[type="radio"]+label {
+		position: relative;
+		left: -27px;
+	}
+}
+
+@media screen and (min-width:1200px) and (max-width:1400px) {
+	#wrpper {
+		height: 45vw;
+		width: 45vw;
+	}
+
+	.form-check input[type="radio"]+label {
+		position: relative;
+		left: -29px;
+	}
+}
+
+@media screen and (min-width:1400px) {
+	#wrpper {
+		height: 35vw;
+		width: 35vw;
+	}
+
+	.form-check input[type="radio"]+label {
+		position: relative;
+		left: -25px;
+	}
+}
+
+#formcell {
+	display: flex;
+	align-items: center;
+	height: 36px;
+}
+
+#formcell input {
+	display: none;
+}
+
+#formcell input+span {
+	display: inline-block;
+	width: 50px;
+	line-height: 50px;
+	border-radius: 4px;
+	background-color: #dddddd22;
+	text-align: center;
+	margin-right: 5px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+}
+
+#formcell input:checked+span {
+	color: #1aa1e4;
+	border: 1px solid #1aa1e4;
+	background-color: #1aa1e4;
+}
+
+.form-check input[type="radio"] {
+	display: none;
+}
+
+.modeswitch {
+	position: relative;
+	float: left;
+	width: 70px;
+	margin: 0;
+}
+
+.modeswitch-checkbox {
+	display: none;
+}
+
+.modeswitch-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #999999;
+	border-radius: 20px;
+}
+
+.modeswitch-inner {
+	display: block;
+	width: 200%;
+	margin-left: -100%;
+	transition: margin 0.3s ease-in 0s;
+}
+
+.modeswitch-inner::before,
+.modeswitch-inner::after {
+	display: block;
+	float: right;
+	width: 50%;
+	height: 30px;
+	padding: 0;
+	line-height: 30px;
+	font-size: 14px;
+	color: white;
+	font-family:
+		Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	box-sizing: border-box;
+}
+
+.modeswitch-inner::after {
+	content: attr(data-on);
+	padding-left: 10px;
+	background-color: #198754;
+	color: #FFFFFF;
+}
+
+.modeswitch-inner::before {
+	content: attr(data-off);
+	padding-right: 10px;
+	background-color: #EEEEEE;
+	color: #999999;
+	text-align: right;
+}
+
+.modeswitch-switch {
+	position: absolute;
+	display: block;
+	width: 22px;
+	height: 22px;
+	margin: 4px;
+	background: #FFFFFF;
+	top: 2px;
+	bottom: 0;
+	right: 40px;
+	border: 2px solid #999999;
+	border-radius: 20px;
+	transition: all 0.3s ease-in 0s;
+}
+
+.modeswitch-checkbox:checked+.modeswitch-label .modeswitch-inner {
+	margin-left: 0;
+}
+
+.modeswitch-checkbox:checked+.modeswitch-label .modeswitch-switch {
+	right: 0px;
+}
+
+.partyswitch {
+	position: relative;
+	float: left;
+	width: 70px;
+	margin: 0;
+}
+
+.partyswitch-checkbox {
+	display: none;
+}
+
+.partyswitch-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #999999;
+	border-radius: 20px;
+}
+
+.partyswitch-inner {
+	display: block;
+	width: 200%;
+	margin-left: -100%;
+	transition: margin 0.3s ease-in 0s;
+}
+
+.partyswitch-inner::before,
+.partyswitch-inner::after {
+	display: block;
+	float: right;
+	width: 50%;
+	height: 30px;
+	padding: 0;
+	line-height: 30px;
+	font-size: 14px;
+	color: white;
+	font-family:
+		Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	box-sizing: border-box;
+}
+
+.partyswitch-inner::after {
+	content: attr(data-on);
+	padding-left: 10px;
+	background-color: #547387;
+	color: #FFFFFF;
+}
+
+.partyswitch-inner::before {
+	content: attr(data-off);
+	padding-right: 10px;
+	background-color: #EEEEEE;
+	color: #999999;
+	text-align: right;
+}
+
+.partyswitch-switch {
+	position: absolute;
+	display: block;
+	width: 22px;
+	height: 22px;
+	margin: 4px;
+	background: #FFFFFF;
+	top: 2px;
+	bottom: 0;
+	right: 40px;
+	border: 2px solid #999999;
+	border-radius: 20px;
+	transition: all 0.3s ease-in 0s;
+}
+
+.partyswitch-checkbox:checked+.partyswitch-label .partyswitch-inner {
+	margin-left: 0;
+}
+
+.partyswitch-checkbox:checked+.partyswitch-label .partyswitch-switch {
+	right: 0px;
+}
