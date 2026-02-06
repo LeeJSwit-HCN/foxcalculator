@@ -9,9 +9,9 @@
 	<link rel="shortcut icon" href="./favicon.ico">
 	<script src="./js/jquery.js"></script>
 	<link rel="stylesheet" href="./css/bootstrap.min.css">
-	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/bootstrap.min.js" defer></script>
 	<link rel="stylesheet" type="text/css" href="./style.css">
-	<script src="./plugins.js"></script>
+	<script src="./plugins.js" defer></script>
 </head>
 
 <body>
@@ -25,55 +25,55 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg g-1">
-					<div class="contsiner-fluid">
-						<div class="contsiner-fluid">
+					<div class="container-fluid">
+						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-3 col-lg-3"></div>
-								<div id="deadcell_col" style="background-color: #0D6EFD;"
-									class="col-2 col-md-1 col-lg-1 border rounded-start">
+								<div id="deadcell_col"
+									class="mode-option mode-option-active col-2 col-md-1 col-lg-1 border rounded-start">
 									<div class="form-check text-light text-nowrap">
 										<input type="radio" class="form-check-input" id="menuitemdeadcell"
-											name="optradio" onclick="mode_update(this.value)" value="deadcell" checked>
+											name="optradio" value="deadcell" checked>
 										<label class="form-check-label" for="menuitemdeadcell">固定</label>
 									</div>
 								</div>
-								<div id="sword_col" style="background-color: black;"
-									class="col-2 col-md-1 col-lg-1 border">
+								<div id="sword_col"
+									class="mode-option col-2 col-md-1 col-lg-1 border">
 									<div class="form-check text-light text-nowrap">
 										<input type="radio" class="form-check-input" id="menuitesword" name="optradio"
-											onclick="mode_update(this.value)" value="sword">
+											value="sword">
 										<label class="form-check-label" for="menuitesword">双剑</label>
 									</div>
 								</div>
-								<div id="box_col" style="background-color: black;"
-									class="col-2 col-md-1 col-lg-1 border">
+								<div id="box_col"
+									class="mode-option col-2 col-md-1 col-lg-1 border">
 									<div class="form-check text-light text-nowrap">
 										<input type="radio" class="form-check-input" id="menuitebox" name="optradio"
-											onclick="mode_update(this.value)" value="box">
+											value="box">
 										<label class="form-check-label" for="menuitebox">宝箱</label>
 									</div>
 								</div>
-								<div id="miss_col" style="background-color: black;"
-									class="col-2 col-md-1 col-lg-1 border">
+								<div id="miss_col"
+									class="mode-option col-2 col-md-1 col-lg-1 border">
 									<div class="form-check text-light text-nowrap">
 										<input type="radio" class="form-check-input" id="menuitemmiss" name="optradio"
-											onclick="mode_update(this.value)" value="miss">
+											value="miss">
 										<label class="form-check-label" for="menuitemmiss">空格</label>
 									</div>
 								</div>
-								<div id="fox_col" style="background-color: black;"
-									class="col-2 col-md-1 col-lg-1 border">
+								<div id="fox_col"
+									class="mode-option col-2 col-md-1 col-lg-1 border">
 									<div class="form-check text-light text-nowrap">
 										<input type="radio" class="form-check-input" id="menuitefox" name="optradio"
-											onclick="mode_update(this.value)" value="fox">
+											value="fox">
 										<label class="form-check-label" for="menuitefox">宗长</label>
 									</div>
 								</div>
-								<div id="clear_col" style="background-color: black;"
-									class="col-2 col-md-1 col-lg-1 border rounded-end">
+								<div id="clear_col"
+									class="mode-option col-2 col-md-1 col-lg-1 border rounded-end">
 									<div class="form-check text-light text-nowrap">
 										<input type="radio" class="form-check-input" id="menuiteclear" name="optradio"
-											onclick="mode_update(this.value)" value="clear">
+											value="clear">
 										<label class="form-check-label" for="menuiteclear">清除</label>
 									</div>
 								</div>
@@ -100,132 +100,60 @@
 							</div>
 						</div>
 						<div class="container-fluid text-nowrap" id="wrpper">
-							<div style="height: 15.83333%; width: 100%;" class="col-">
-								<button id="11"
-									style="background-color: black; border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="12"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="13"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="14"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="15"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="16"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
+							<div class="board-row">
+								<button id="11" class="btn board-cell" data-cell-id="11"></button>
+								<button id="12" class="btn board-cell" data-cell-id="12"></button>
+								<button id="13" class="btn board-cell" data-cell-id="13"></button>
+								<button id="14" class="btn board-cell" data-cell-id="14"></button>
+								<button id="15" class="btn board-cell" data-cell-id="15"></button>
+								<button id="16" class="btn board-cell" data-cell-id="16"></button>
 							</div>
-							<div style="height: 15.83333%; width: 100%;" class="col-">
-								<button id="21"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="22"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="23"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
-								<button id="24"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="25"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
-								<button id="26"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
+							<div class="board-row">
+								<button id="21" class="btn board-cell" data-cell-id="21"></button>
+								<button id="22" class="btn board-cell" data-cell-id="22"></button>
+								<button id="23" class="btn board-cell" data-cell-id="23"></button>
+								<button id="24" class="btn board-cell" data-cell-id="24"></button>
+								<button id="25" class="btn board-cell" data-cell-id="25"></button>
+								<button id="26" class="btn board-cell" data-cell-id="26"></button>
 							</div>
-							<div style="height: 15.83333%; width: 100%;" class="col-">
-								<button id="31"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="32"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="33"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="34"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="35"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
-								<button id="36"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
+							<div class="board-row">
+								<button id="31" class="btn board-cell" data-cell-id="31"></button>
+								<button id="32" class="btn board-cell" data-cell-id="32"></button>
+								<button id="33" class="btn board-cell" data-cell-id="33"></button>
+								<button id="34" class="btn board-cell" data-cell-id="34"></button>
+								<button id="35" class="btn board-cell" data-cell-id="35"></button>
+								<button id="36" class="btn board-cell" data-cell-id="36"></button>
 							</div>
-							<div style="height: 15.83333%; width: 100%;" class="col-">
-								<button id="41"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="42"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
-								<button id="43"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="44"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
-								<button id="45"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="46"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
+							<div class="board-row">
+								<button id="41" class="btn board-cell" data-cell-id="41"></button>
+								<button id="42" class="btn board-cell" data-cell-id="42"></button>
+								<button id="43" class="btn board-cell" data-cell-id="43"></button>
+								<button id="44" class="btn board-cell" data-cell-id="44"></button>
+								<button id="45" class="btn board-cell" data-cell-id="45"></button>
+								<button id="46" class="btn board-cell" data-cell-id="46"></button>
 							</div>
-							<div style="height: 15.83333%; width: 100%;" class="col-">
-								<button id="51"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="52"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn " onclick=Livelistening(id)></button>
-								<button id="53"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="54"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="55"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="56"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
+							<div class="board-row">
+								<button id="51" class="btn board-cell" data-cell-id="51"></button>
+								<button id="52" class="btn board-cell" data-cell-id="52"></button>
+								<button id="53" class="btn board-cell" data-cell-id="53"></button>
+								<button id="54" class="btn board-cell" data-cell-id="54"></button>
+								<button id="55" class="btn board-cell" data-cell-id="55"></button>
+								<button id="56" class="btn board-cell" data-cell-id="56"></button>
 							</div>
-							<div style="height: 15.83333%; width: 100%;" class="col-">
-								<button id="61"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="62"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="63"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="64"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="65"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
-								<button id="66"
-									style="background-color: black;border-color: white; height: 100%; width: 15.83333%;"
-									class="btn" onclick=Livelistening(id)></button>
+							<div class="board-row">
+								<button id="61" class="btn board-cell" data-cell-id="61"></button>
+								<button id="62" class="btn board-cell" data-cell-id="62"></button>
+								<button id="63" class="btn board-cell" data-cell-id="63"></button>
+								<button id="64" class="btn board-cell" data-cell-id="64"></button>
+								<button id="65" class="btn board-cell" data-cell-id="65"></button>
+								<button id="66" class="btn board-cell" data-cell-id="66"></button>
 							</div>
 						</div>
 						<div class="container-fluid text-nowrap">
 							<div class="row">
 								<div class="col-9"></div>
 								<div class="col-1">
-									<button class="btn btn-success" onclick=reset()>重置</button>
+									<button id="reset-btn" class="btn btn-success">重置</button>
 								</div>
 							</div>
 						</div>

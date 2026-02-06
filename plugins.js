@@ -1,33 +1,36 @@
-let mode_value = 'deadcell';
-let step = 0;
-let deadcell_num = 0;
-let miss_num = 0;
-let sword_num = 0;
-let box_num = 0;
-let fox_num = 0;
-let now_list = '';
-let now_dirc = '';
-let now_mod = '';
-let step_list = [];
-let deadcell_list = [];
-let sword_condition = [];
-let box_condition = [];
-let A_u = ['32', '23', '53', '25', '66'];
-let A_r = ['32', '24', '35', '55', '61'];
-let A_d = ['11', '24', '45', '54', '52'];
-let A_l = ['16', '22', '42', '45', '53'];
-let B_u = ['14', '32', '35', '44', '63'];
-let B_r = ['24', '31', '43', '54', '46'];
-let B_d = ['14', '33', '42', '45', '63'];
-let B_l = ['23', '31', '34', '46', '53'];
-let C_u = ['15', '22', '34', '52', '64'];
-let C_r = ['22', '25', '41', '44', '56'];
-let C_d = ['13', '25', '43', '55', '62'];
-let C_l = ['21', '33', '36', '52', '55'];
-let D_u = ['22', '35', '41', '54', '63'];
-let D_r = ['13', '25', '31', '42', '54'];
-let D_d = ['14', '23', '36', '42', '55'];
-let D_l = ['23', '35', '46', '52', '64'];
+const state = {
+    mode_value: 'deadcell',
+    step: 0,
+    deadcell_num: 0,
+    miss_num: 0,
+    sword_num: 0,
+    box_num: 0,
+    fox_num: 0,
+    now_list: '',
+    now_dirc: '',
+    now_mod: '',
+    step_list: [],
+    deadcell_list: [],
+    sword_condition: [],
+    box_condition: [],
+};
+
+const stateKeys = Object.keys(state);
+for (const key of stateKeys) {
+    Object.defineProperty(globalThis, key, {
+        configurable: true,
+        get() { return state[key]; },
+        set(value) { state[key] = value; }
+    });
+}
+
+const DEADCELL_PATTERNS = {
+    A: { u: ['32', '23', '53', '25', '66'], r: ['32', '24', '35', '55', '61'], d: ['11', '24', '45', '54', '52'], l: ['16', '22', '42', '45', '53'] },
+    B: { u: ['14', '32', '35', '44', '63'], r: ['24', '31', '43', '54', '46'], d: ['14', '33', '42', '45', '63'], l: ['23', '31', '34', '46', '53'] },
+    C: { u: ['15', '22', '34', '52', '64'], r: ['22', '25', '41', '44', '56'], d: ['13', '25', '43', '55', '62'], l: ['21', '33', '36', '52', '55'] },
+    D: { u: ['22', '35', '41', '54', '63'], r: ['13', '25', '31', '42', '54'], d: ['14', '23', '36', '42', '55'], l: ['23', '35', '46', '52', '64'] },
+};
+
 let matrix = {
     '11': '', '12': '', '13': '', '14': '', '15': '', '16': '',
     '21': '', '22': '', '23': '', '24': '', '25': '', '26': '',
@@ -36,163 +39,19 @@ let matrix = {
     '51': '', '52': '', '53': '', '54': '', '55': '', '56': '',
     '61': '', '62': '', '63': '', '64': '', '65': '', '66': '',
 }
-function sw_u(id) {
-    if (id == 'A1') { return '11' }
-    if (id == 'A2') { return '12' }
-    if (id == 'A3') { return '13' }
-    if (id == 'A4') { return '14' }
-    if (id == 'A5') { return '15' }
-    if (id == 'A6') { return '16' }
-    if (id == 'B1') { return '21' }
-    if (id == 'B2') { return '22' }
-    if (id == 'B3') { return '23' }
-    if (id == 'B4') { return '24' }
-    if (id == 'B5') { return '25' }
-    if (id == 'B6') { return '26' }
-    if (id == 'C1') { return '31' }
-    if (id == 'C2') { return '32' }
-    if (id == 'C3') { return '33' }
-    if (id == 'C4') { return '34' }
-    if (id == 'C5') { return '35' }
-    if (id == 'C6') { return '36' }
-    if (id == 'D1') { return '41' }
-    if (id == 'D2') { return '42' }
-    if (id == 'D3') { return '43' }
-    if (id == 'D4') { return '44' }
-    if (id == 'D5') { return '45' }
-    if (id == 'D6') { return '46' }
-    if (id == 'E1') { return '51' }
-    if (id == 'E2') { return '52' }
-    if (id == 'E3') { return '53' }
-    if (id == 'E4') { return '54' }
-    if (id == 'E5') { return '55' }
-    if (id == 'E6') { return '56' }
-    if (id == 'F1') { return '61' }
-    if (id == 'F2') { return '62' }
-    if (id == 'F3') { return '63' }
-    if (id == 'F4') { return '64' }
-    if (id == 'F5') { return '65' }
-    if (id == 'F6') { return '66' }
+
+function convertCellByDirection(id, direction) {
+    const row = id.charCodeAt(0) - 64;
+    const col = Number(id[1]);
+    if (direction == 'u') { return `${row}${col}`; }
+    if (direction == 'r') { return `${7 - col}${row}`; }
+    if (direction == 'd') { return `${7 - row}${7 - col}`; }
+    if (direction == 'l') { return `${col}${7 - row}`; }
+    return '';
 }
-function sw_r(id) {
-    if (id == 'F1') { return '11' }
-    if (id == 'E1') { return '12' }
-    if (id == 'D1') { return '13' }
-    if (id == 'C1') { return '14' }
-    if (id == 'B1') { return '15' }
-    if (id == 'A1') { return '16' }
-    if (id == 'F2') { return '21' }
-    if (id == 'E2') { return '22' }
-    if (id == 'D2') { return '23' }
-    if (id == 'C2') { return '24' }
-    if (id == 'B2') { return '25' }
-    if (id == 'A2') { return '26' }
-    if (id == 'F3') { return '31' }
-    if (id == 'E3') { return '32' }
-    if (id == 'D3') { return '33' }
-    if (id == 'C3') { return '34' }
-    if (id == 'B3') { return '35' }
-    if (id == 'A3') { return '36' }
-    if (id == 'F4') { return '41' }
-    if (id == 'E4') { return '42' }
-    if (id == 'D4') { return '43' }
-    if (id == 'C4') { return '44' }
-    if (id == 'B4') { return '45' }
-    if (id == 'A4') { return '46' }
-    if (id == 'F5') { return '51' }
-    if (id == 'E5') { return '52' }
-    if (id == 'D5') { return '53' }
-    if (id == 'C5') { return '54' }
-    if (id == 'B5') { return '55' }
-    if (id == 'A5') { return '56' }
-    if (id == 'F6') { return '61' }
-    if (id == 'E6') { return '62' }
-    if (id == 'D6') { return '63' }
-    if (id == 'C6') { return '64' }
-    if (id == 'B6') { return '65' }
-    if (id == 'A6') { return '66' }
-}
-function sw_d(id) {
-    if (id == 'F6') { return '11' }
-    if (id == 'F5') { return '12' }
-    if (id == 'F4') { return '13' }
-    if (id == 'F3') { return '14' }
-    if (id == 'F2') { return '15' }
-    if (id == 'F1') { return '16' }
-    if (id == 'E6') { return '21' }
-    if (id == 'E5') { return '22' }
-    if (id == 'E4') { return '23' }
-    if (id == 'E3') { return '24' }
-    if (id == 'E2') { return '25' }
-    if (id == 'E1') { return '26' }
-    if (id == 'D6') { return '31' }
-    if (id == 'D5') { return '32' }
-    if (id == 'D4') { return '33' }
-    if (id == 'D3') { return '34' }
-    if (id == 'D2') { return '35' }
-    if (id == 'D1') { return '36' }
-    if (id == 'C6') { return '41' }
-    if (id == 'C5') { return '42' }
-    if (id == 'C4') { return '43' }
-    if (id == 'C3') { return '44' }
-    if (id == 'C2') { return '45' }
-    if (id == 'C1') { return '46' }
-    if (id == 'B6') { return '51' }
-    if (id == 'B5') { return '52' }
-    if (id == 'B4') { return '53' }
-    if (id == 'B3') { return '54' }
-    if (id == 'B2') { return '55' }
-    if (id == 'B1') { return '56' }
-    if (id == 'A6') { return '61' }
-    if (id == 'A5') { return '62' }
-    if (id == 'A4') { return '63' }
-    if (id == 'A3') { return '64' }
-    if (id == 'A2') { return '65' }
-    if (id == 'A1') { return '66' }
-}
-function sw_l(id) {
-    if (id == 'A6') { return '11' }
-    if (id == 'B6') { return '12' }
-    if (id == 'C6') { return '13' }
-    if (id == 'D6') { return '14' }
-    if (id == 'E6') { return '15' }
-    if (id == 'F6') { return '16' }
-    if (id == 'A5') { return '21' }
-    if (id == 'B5') { return '22' }
-    if (id == 'C5') { return '23' }
-    if (id == 'D5') { return '24' }
-    if (id == 'E5') { return '25' }
-    if (id == 'F5') { return '26' }
-    if (id == 'A4') { return '31' }
-    if (id == 'B4') { return '32' }
-    if (id == 'C4') { return '33' }
-    if (id == 'D4') { return '34' }
-    if (id == 'E4') { return '35' }
-    if (id == 'F4') { return '36' }
-    if (id == 'A3') { return '41' }
-    if (id == 'B3') { return '42' }
-    if (id == 'C3') { return '43' }
-    if (id == 'D3') { return '44' }
-    if (id == 'E3') { return '45' }
-    if (id == 'F3') { return '46' }
-    if (id == 'A2') { return '51' }
-    if (id == 'B2') { return '52' }
-    if (id == 'C2') { return '53' }
-    if (id == 'D2') { return '54' }
-    if (id == 'E2') { return '55' }
-    if (id == 'F2') { return '56' }
-    if (id == 'A1') { return '61' }
-    if (id == 'B1') { return '62' }
-    if (id == 'C1') { return '63' }
-    if (id == 'D1') { return '64' }
-    if (id == 'E1') { return '65' }
-    if (id == 'F1') { return '66' }
-}
+
 function dirc(num) {
-    if (now_dirc == 'u') { return sw_u(num); }
-    if (now_dirc == 'r') { return sw_r(num); }
-    if (now_dirc == 'd') { return sw_d(num); }
-    if (now_dirc == 'l') { return sw_l(num); }
+    return convertCellByDirection(num, now_dirc);
 }
 const rgbToHex = (str) => {
     let result = '';
@@ -265,26 +124,21 @@ var commonUtil = {
     }
 }
 function mode_update(radio) {
-    mode_value = document.getElementsByName("optradio").value = radio
-    document.getElementById('deadcell_col').style.backgroundColor = 'black';
-    document.getElementById('miss_col').style.backgroundColor = 'black';
-    document.getElementById('sword_col').style.backgroundColor = 'black';
-    document.getElementById('box_col').style.backgroundColor = 'black';
-    document.getElementById('fox_col').style.backgroundColor = 'black';
-    document.getElementById('clear_col').style.backgroundColor = 'black';
-    switch (mode_value) {
-        case 'deadcell':
-            document.getElementById('deadcell_col').style.backgroundColor = '#0D6EFD'; break;
-        case 'miss':
-            document.getElementById('miss_col').style.backgroundColor = '#0D6EFD'; break;
-        case 'sword':
-            document.getElementById('sword_col').style.backgroundColor = '#0D6EFD'; break;
-        case 'box':
-            document.getElementById('box_col').style.backgroundColor = '#0D6EFD'; break;
-        case 'fox':
-            document.getElementById('fox_col').style.backgroundColor = '#0D6EFD'; break;
-        case 'clear':
-            document.getElementById('clear_col').style.backgroundColor = '#0D6EFD'; break;
+    mode_value = radio;
+    const modeColumns = {
+        deadcell: 'deadcell_col',
+        miss: 'miss_col',
+        sword: 'sword_col',
+        box: 'box_col',
+        fox: 'fox_col',
+        clear: 'clear_col',
+    };
+    Object.values(modeColumns).forEach((columnId) => {
+        document.getElementById(columnId).classList.remove('mode-option-active');
+    });
+    const activeId = modeColumns[mode_value];
+    if (activeId) {
+        document.getElementById(activeId).classList.add('mode-option-active');
     }
 }
 function increment() {
@@ -302,54 +156,23 @@ function increment() {
     }
 }
 function which_list() {
-    if (deadcell_list.length == 5) {
-        if (A_u.includes(deadcell_list[0]) && A_u.includes(deadcell_list[1]) && A_u.includes(deadcell_list[2]) && A_u.includes(deadcell_list[3]) && A_u.includes(deadcell_list[4])) {
-            now_list = 'A_u'; now_dirc = 'u'; now_mod = 'A';
-        }
-        else if (A_r.includes(deadcell_list[0]) && A_r.includes(deadcell_list[1]) && A_r.includes(deadcell_list[2]) && A_r.includes(deadcell_list[3]) && A_r.includes(deadcell_list[4])) {
-            now_list = 'A_r'; now_dirc = 'r'; now_mod = 'A';
-        }
-        else if (A_d.includes(deadcell_list[0]) && A_d.includes(deadcell_list[1]) && A_d.includes(deadcell_list[2]) && A_d.includes(deadcell_list[3]) && A_d.includes(deadcell_list[4])) {
-            now_list = 'A_d'; now_dirc = 'd'; now_mod = 'A';
-        }
-        else if (A_l.includes(deadcell_list[0]) && A_l.includes(deadcell_list[1]) && A_l.includes(deadcell_list[2]) && A_l.includes(deadcell_list[3]) && A_l.includes(deadcell_list[4])) {
-            now_list = 'A_l'; now_dirc = 'l'; now_mod = 'A';
-        }
-        if (B_u.includes(deadcell_list[0]) && B_u.includes(deadcell_list[1]) && B_u.includes(deadcell_list[2]) && B_u.includes(deadcell_list[3]) && B_u.includes(deadcell_list[4])) {
-            now_list = 'B_u'; now_dirc = 'u'; now_mod = 'B';
-        }
-        else if (B_r.includes(deadcell_list[0]) && B_r.includes(deadcell_list[1]) && B_r.includes(deadcell_list[2]) && B_r.includes(deadcell_list[3]) && B_r.includes(deadcell_list[4])) {
-            now_list = 'B_r'; now_dirc = 'r'; now_mod = 'B';
-        }
-        else if (B_d.includes(deadcell_list[0]) && B_d.includes(deadcell_list[1]) && B_d.includes(deadcell_list[2]) && B_d.includes(deadcell_list[3]) && B_d.includes(deadcell_list[4])) {
-            now_list = 'B_d'; now_dirc = 'd'; now_mod = 'B';
-        }
-        else if (B_l.includes(deadcell_list[0]) && B_l.includes(deadcell_list[1]) && B_l.includes(deadcell_list[2]) && B_l.includes(deadcell_list[3]) && B_l.includes(deadcell_list[4])) {
-            now_list = 'B_l'; now_dirc = 'l'; now_mod = 'B';
-        }
-        if (C_u.includes(deadcell_list[0]) && C_u.includes(deadcell_list[1]) && C_u.includes(deadcell_list[2]) && C_u.includes(deadcell_list[3]) && C_u.includes(deadcell_list[4])) {
-            now_list = 'C_u'; now_dirc = 'u'; now_mod = 'C';
-        }
-        else if (C_r.includes(deadcell_list[0]) && C_r.includes(deadcell_list[1]) && C_r.includes(deadcell_list[2]) && C_r.includes(deadcell_list[3]) && C_r.includes(deadcell_list[4])) {
-            now_list = 'C_r'; now_dirc = 'r'; now_mod = 'C';
-        }
-        else if (C_d.includes(deadcell_list[0]) && C_d.includes(deadcell_list[1]) && C_d.includes(deadcell_list[2]) && C_d.includes(deadcell_list[3]) && C_d.includes(deadcell_list[4])) {
-            now_list = 'C_d'; now_dirc = 'd'; now_mod = 'C';
-        }
-        else if (C_l.includes(deadcell_list[0]) && C_l.includes(deadcell_list[1]) && C_l.includes(deadcell_list[2]) && C_l.includes(deadcell_list[3]) && C_l.includes(deadcell_list[4])) {
-            now_list = 'C_l'; now_dirc = 'l'; now_mod = 'C';
-        }
-        if (D_u.includes(deadcell_list[0]) && D_u.includes(deadcell_list[1]) && D_u.includes(deadcell_list[2]) && D_u.includes(deadcell_list[3]) && D_u.includes(deadcell_list[4])) {
-            now_list = 'D_u'; now_dirc = 'u'; now_mod = 'D';
-        }
-        else if (D_r.includes(deadcell_list[0]) && D_r.includes(deadcell_list[1]) && D_r.includes(deadcell_list[2]) && D_r.includes(deadcell_list[3]) && D_r.includes(deadcell_list[4])) {
-            now_list = 'D_r'; now_dirc = 'r'; now_mod = 'D';
-        }
-        else if (D_d.includes(deadcell_list[0]) && D_d.includes(deadcell_list[1]) && D_d.includes(deadcell_list[2]) && D_d.includes(deadcell_list[3]) && D_d.includes(deadcell_list[4])) {
-            now_list = 'D_d'; now_dirc = 'd'; now_mod = 'D';
-        }
-        else if (D_l.includes(deadcell_list[0]) && D_l.includes(deadcell_list[1]) && D_l.includes(deadcell_list[2]) && D_l.includes(deadcell_list[3]) && D_l.includes(deadcell_list[4])) {
-            now_list = 'D_l'; now_dirc = 'l'; now_mod = 'D';
+    if (deadcell_list.length != 5) {
+        return;
+    }
+    now_list = '';
+    now_dirc = '';
+    now_mod = '';
+    const directions = ['u', 'r', 'd', 'l'];
+    for (const [mod, patternByDirection] of Object.entries(DEADCELL_PATTERNS)) {
+        for (const direction of directions) {
+            const pattern = patternByDirection[direction];
+            const matches = deadcell_list.every((cell) => pattern.includes(cell));
+            if (matches) {
+                now_list = `${mod}_${direction}`;
+                now_dirc = direction;
+                now_mod = mod;
+                return;
+            }
         }
     }
 }
@@ -746,8 +569,8 @@ function updata_matrix_increment() {
     var box_min = 100;
     var sword_sum = 0;
     var box_sum = 0;
-    for (i = 1; i <= 6; i++) {
-        for (j = 1; j <= 6; j++) {
+    for (let i = 1; i <= 6; i++) {
+        for (let j = 1; j <= 6; j++) {
             if (rgbToHex(document.getElementById(i * 10 + j).style.backgroundColor) == '#9fc5e8') {
                 matrix[i * 10 + j] = 'sword';
                 step++;
@@ -810,15 +633,15 @@ function find_condition() {
     var sword_count = 0;
     sword_condition = [];
     box_condition = [];
-    for (h = 1; h <= 5; h++) {
-        for (w = 1; w <= 4; w++) {
+    for (let h = 1; h <= 5; h++) {
+        for (let w = 1; w <= 4; w++) {
             sword_tran.push(h * 10 + w + 0);
             sword_tran.push(h * 10 + w + 1);
             sword_tran.push(h * 10 + w + 2);
             sword_tran.push(h * 10 + w + 10);
             sword_tran.push(h * 10 + w + 11);
             sword_tran.push(h * 10 + w + 12);
-            for (i = 0; i < sword_tran.length; i++) {
+            for (let i = 0; i < sword_tran.length; i++) {
                 if (matrix[sword_tran[i]] == 'deadcell' || matrix[sword_tran[i]] == 'miss' || matrix[sword_tran[i]] == 'box' || matrix[sword_tran[i]] == 'fox') {
                     validation = false;
                 }
@@ -833,15 +656,15 @@ function find_condition() {
             } validation = true; sword_tran = []; sword_count = 0;
         }
     }
-    for (h = 1; h <= 4; h++) {
-        for (w = 1; w <= 5; w++) {
+    for (let h = 1; h <= 4; h++) {
+        for (let w = 1; w <= 5; w++) {
             sword_vert.push(h * 10 + w + 0);
             sword_vert.push(h * 10 + w + 1);
             sword_vert.push(h * 10 + w + 10);
             sword_vert.push(h * 10 + w + 11);
             sword_vert.push(h * 10 + w + 20);
             sword_vert.push(h * 10 + w + 21);
-            for (i = 0; i < sword_vert.length; i++) {
+            for (let i = 0; i < sword_vert.length; i++) {
                 if (matrix[sword_vert[i]] == 'deadcell' || matrix[sword_vert[i]] == 'miss' || matrix[sword_vert[i]] == 'box' || matrix[sword_vert[i]] == 'fox') {
                     validation = false;
                 }
@@ -856,8 +679,8 @@ function find_condition() {
             } validation = true; sword_vert = []; sword_count = 0;
         }
     }
-    for (i = 0; i < sword_all.length; i++) {
-        for (j = 0; j < sword_all[i].length; j++) {
+    for (let i = 0; i < sword_all.length; i++) {
+        for (let j = 0; j < sword_all[i].length; j++) {
             sword_condition.push(sword_all[i][j].toString());
         }
     }
@@ -872,13 +695,13 @@ function find_condition() {
     var box_all = [];
     var box_li = [];
     var box_count = 0;
-    for (h = 1; h <= 5; h++) {
-        for (w = 1; w <= 5; w++) {
+    for (let h = 1; h <= 5; h++) {
+        for (let w = 1; w <= 5; w++) {
             box_li.push(h * 10 + w + 0);
             box_li.push(h * 10 + w + 1);
             box_li.push(h * 10 + w + 10);
             box_li.push(h * 10 + w + 11);
-            for (i = 0; i < box_li.length; i++) {
+            for (let i = 0; i < box_li.length; i++) {
                 if (matrix[box_li[i]] == 'deadcell' || matrix[box_li[i]] == 'miss' || matrix[box_li[i]] == 'sword' || matrix[box_li[i]] == 'fox') {
                     validation = false;
                 }
@@ -896,8 +719,8 @@ function find_condition() {
             } validation = true; box_li = []; box_count = 0;
         }
     }
-    for (i = 0; i < box_all.length; i++) {
-        for (j = 0; j < box_all[i].length; j++) {
+    for (let i = 0; i < box_all.length; i++) {
+        for (let j = 0; j < box_all[i].length; j++) {
             box_condition.push(box_all[i][j].toString());
         }
     }
@@ -915,11 +738,11 @@ function speculate() {
     if (step > 0) {
         clear_all_tip();
         if (sword_condition.length == 6) {
-            for (i = 0; i < sword_condition.length; i++) {
+            for (let i = 0; i < sword_condition.length; i++) {
                 document.getElementById(sword_condition[i]).style.backgroundColor = '#9fc5e8'
             }
         } else {
-            for (i = 0; i < sword_condition.length; i++) {
+            for (let i = 0; i < sword_condition.length; i++) {
                 document.getElementById(sword_condition[i]).style.borderColor = "#007bff";
                 document.getElementById(sword_condition[i]).style.borderWidth = '2px';
             }
@@ -927,11 +750,11 @@ function speculate() {
             document.getElementById(step_list[step - 1]).style.borderWidth = '1px';
         }
         if (box_condition.length == 4 && sword_condition.length == 6) {
-            for (i = 0; i < box_condition.length; i++) {
+            for (let i = 0; i < box_condition.length; i++) {
                 document.getElementById(box_condition[i]).style.backgroundColor = '#ea9999'
             }
         } else {
-            for (i = 0; i < box_condition.length; i++) {
+            for (let i = 0; i < box_condition.length; i++) {
                 document.getElementById(box_condition[i]).style.borderColor = "#e06a6a";
                 document.getElementById(box_condition[i]).style.borderWidth = '2px';
             }
@@ -1006,16 +829,16 @@ function speculate() {
     }
 }
 function clear_all_tip() {
-    for (i = 1; i <= 6; i++) {
-        for (j = 1; j <= 6; j++) {
+    for (let i = 1; i <= 6; i++) {
+        for (let j = 1; j <= 6; j++) {
             document.getElementById(i * 10 + j).style.borderColor = "white";
             document.getElementById(i * 10 + j).style.borderWidth = '1px';
         }
     }
 }
 function clear_fox() {
-    for (i = 1; i < 7; i++) {
-        for (j = 1; j < 7; j++) {
+    for (let i = 1; i < 7; i++) {
+        for (let j = 1; j < 7; j++) {
             if (rgbToHex(document.getElementById(i * 10 + j).style.backgroundColor) == '#ff00ff') {
                 document.getElementById(i * 10 + j).style.backgroundColor = "black";
             }
@@ -1045,8 +868,8 @@ function reset() {
         '51': '', '52': '', '53': '', '54': '', '55': '', '56': '',
         '61': '', '62': '', '63': '', '64': '', '65': '', '66': '',
     }
-    for (i = 1; i < 7; i++) {
-        for (j = 1; j < 7; j++) {
+    for (let i = 1; i < 7; i++) {
+        for (let j = 1; j < 7; j++) {
             document.getElementById(i * 10 + j).style.backgroundColor = "black";
             document.getElementById(i * 10 + j).style.borderColor = "white";
             document.getElementById(i * 10 + j).style.borderWidth = '1px';
@@ -1060,6 +883,20 @@ function reset() {
     progressBar_deadcell.innerText = '';
     mode_update(mode_value);
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input[name="optradio"]').forEach((radio) => {
+        radio.addEventListener('change', (event) => mode_update(event.target.value));
+    });
+    document.querySelectorAll('.board-cell').forEach((cell) => {
+        cell.addEventListener('click', () => Livelistening(cell.dataset.cellId));
+    });
+    const resetButton = document.getElementById('reset-btn');
+    if (resetButton) {
+        resetButton.addEventListener('click', reset);
+    }
+});
 function Livelistening(id) {
     updata_matrix_increment();
     if (mode_value == 'deadcell') {

@@ -270,3 +270,23 @@ body {
 .partyswitch-checkbox:checked+.partyswitch-label .partyswitch-switch {
 	right: 0px;
 }
+
+.mode-option {
+	background-color: black;
+}
+
+.mode-option-active {
+	background-color: #0D6EFD;
+}
+
+.board-row {
+	height: 15.83333%;
+	width: 100%;
+}
+
+.board-cell {
+	background-color: black;
+	border-color: white;
+	height: 100%;
+	width: 15.83333%;
+}
