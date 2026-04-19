@@ -791,6 +791,10 @@ function updata_matrix_increment() {
         if (now_list == '') {
             commonUtil.message('固定位错误,请仔细核对', 'danger');
         }
+    } else {
+        now_list = '';
+        now_dirc = '';
+        now_mod = '';
     }
     if (sword_num == 6) {
         if ((sword_sum / 6) - sword_min != 6 && (sword_sum / 6) - sword_min != 10.5) {
@@ -1075,7 +1079,19 @@ function Livelistening(id) {
     updata_matrix_increment();
     // 如果点击的格子已经有颜色（非空），直接清除这个格子
     if (matrix[id] !== '') {
+        let cleared_type = matrix[id];
         document.getElementById(id).style.backgroundColor = "black";
+        if (cleared_type == 'deadcell') {
+            mode_update('deadcell');
+        } else if (cleared_type == 'sword') {
+            mode_update('sword');
+        } else if (cleared_type == 'box') {
+            mode_update('box');
+        } else if (cleared_type == 'miss') {
+            mode_update('miss');
+        } else if (cleared_type == 'fox') {
+            mode_update('fox');
+        }
         clear_all_tip();
         speculate();
         return;
