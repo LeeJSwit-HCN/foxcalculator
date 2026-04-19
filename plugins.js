@@ -781,6 +781,8 @@ function updata_matrix_increment() {
                 matrix[i * 10 + j] = 'deadcell';
                 deadcell_num++;
                 deadcell_list.push((i * 10 + j).toString());
+            } else {
+                matrix[i * 10 + j] = '';
             }
         }
     }
@@ -939,18 +941,27 @@ function speculate() {
             document.getElementById(step_list[step - 1]).style.borderWidth = '1px';
         }
         updata_matrix_increment();
+        
+        // 自动填充后的模式切换（宗长结果显示后不切换）
+        if (step < 10) {
+            if (mode_value == 'sword' && sword_num == 6) {
+                mode_update('box');
+            } else if (mode_value == 'box' && box_num == 4) {
+                mode_update('sword');
+            }
+        }
     }
     if (now_mod == 'A') {
         if (step >= 10) { A_general(); }
         else {
             if (matrix[dirc('D5')] == '') {
-                document.getElementById(dirc('D5')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('D5')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('D5')).style.borderWidth = '2px';
             }
             else if (matrix[dirc('E1')] == '' && matrix[dirc('E2')] == '') {
-                document.getElementById(dirc('E1')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('E1')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('E1')).style.borderWidth = '2px';
-                document.getElementById(dirc('E2')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('E2')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('E2')).style.borderWidth = '2px';
             }
         }
@@ -960,11 +971,11 @@ function speculate() {
         if (step >= 10) { B_general(); }
         else {
             if (matrix[dirc('E2')] == '') {
-                document.getElementById(dirc('E2')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('E2')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('E2')).style.borderWidth = '2px';
             }
             if (matrix[dirc('E5')] == '') {
-                document.getElementById(dirc('E5')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('E5')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('E5')).style.borderWidth = '2px';
             }
         }
@@ -973,11 +984,11 @@ function speculate() {
         if (step >= 10) { C_general(); }
         else {
             if (matrix[dirc('D5')] == '') {
-                document.getElementById(dirc('D5')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('D5')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('D5')).style.borderWidth = '2px';
             }
             else if (matrix[dirc('B3')] == '') {
-                document.getElementById(dirc('B3')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('B3')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('B3')).style.borderWidth = '2px';
             }
         }
@@ -986,20 +997,20 @@ function speculate() {
         if (step >= 10) { D_general(); }
         else {
             if (matrix[dirc('B4')] == '') {
-                document.getElementById(dirc('B4')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('B4')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('B4')).style.borderWidth = '2px';
             } else if (matrix[dirc('B4')] == 'box') {
-                document.getElementById(dirc('C2')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('C2')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('C2')).style.borderWidth = '2px';
             }
             else if (matrix[dirc('B4')] == 'miss') {
-                document.getElementById(dirc('D3')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('D3')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('D3')).style.borderWidth = '2px';
             }
             else if (matrix[dirc('E5')] == '' && matrix[dirc('E6')] == '') {
-                document.getElementById(dirc('E5')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('E5')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('E5')).style.borderWidth = '2px';
-                document.getElementById(dirc('E6')).style.borderColor = '#7ad694';
+                document.getElementById(dirc('E6')).style.borderColor = '#ffff00';
                 document.getElementById(dirc('E6')).style.borderWidth = '2px';
             }
         }
@@ -1062,14 +1073,27 @@ function reset() {
 }
 function Livelistening(id) {
     updata_matrix_increment();
+    // 如果点击的格子已经有颜色（非空），直接清除这个格子
+    if (matrix[id] !== '') {
+        document.getElementById(id).style.backgroundColor = "black";
+        clear_all_tip();
+        speculate();
+        return;
+    }
     if (mode_value == 'deadcell') {
         if (deadcell_num < 5) {
             document.getElementById(id).style.backgroundColor = "#999999";
+            if (deadcell_num + 1 == 5) {
+                mode_update('sword');
+            }
         } else { commonUtil.message('固定位最多有5个', 'danger'); }
     }
     else if (mode_value == 'sword') {
         if (step < 10 && sword_num < 6) {
             document.getElementById(id).style.backgroundColor = "#9fc5e8";
+            if (sword_num + 1 == 6) {
+                mode_update('box');
+            }
         } else {
             if (step == 10) { commonUtil.message('已经用完所有次数', 'danger'); }
             else { commonUtil.message('双剑位最多有6个', 'danger'); }
@@ -1077,8 +1101,10 @@ function Livelistening(id) {
     }
     else if (mode_value == 'box') {
         if (step < 10 && box_num < 4) {
-
             document.getElementById(id).style.backgroundColor = "#ea9999";
+            if (box_num + 1 == 4) {
+                mode_update('sword');
+            }
         } else {
             if (step == 10) { commonUtil.message('已经用完所有次数', 'danger'); }
             else { commonUtil.message('宝箱位最多有4个', 'danger'); }
